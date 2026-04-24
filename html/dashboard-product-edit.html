@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product Dashboard - AAA Omega Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="./src/assets/css/app.css">
+    <link rel="stylesheet" href="./src/assets/css/style.css">
+    <script type="text/javascript" src="./src/assets/js/script.js" defer></script>
+  </head>
+  <body class="dashboard flex">
+    <header class="fixed z-98 flex md:hidden items-center w-full rounded-b-2xl bg-white shadow-2xl/10">
+      <a class="nav-logo block text-xl text-neutral-dark hover:text-primary-hover px-5 py-4" href="./dashboard.html">LOGO</a>
+      <a class="nav-toggle button button-icon button-ghost button-content hover:text-primary-hover hover:bg-neutral-lighter" href="#navToggle"><span class="icon-material">menu</span></a>
+    </header>
+    <aside class="md:w-50">
+      <nav id="navContainer" class="fixed z-99 md:flex flex-col w-50 h-dvh overflow-auto rounded-r-2xl bg-neutral-lighter -translate-x-full md:translate-x-0 transition-all">
+        <ul id="navHeader" class="flex justify-between items-center gap-2 p-2 md:p-0">
+          <li><a class="nav-logo block text-xl text-neutral-dark hover:text-primary-hover px-3 py-2 md:px-5 md:py-4" href="./dashboard.html">LOGO</a></li>
+          <li class="md:hidden"><a class="nav-toggle button button-icon button-ghost button-content" href="#navToggle"><span class="icon-material">close</span></a></li>
+        </ul>
+        <ul id="navMain" class="flex flex-col flex-1 gap-2 p-2 border-t border-neutral-disable">
+          <li><a class="button button-ghost button-content justify-start w-full hover:text-primary-hover" href="./dashboard.html"><span class="icon-material">home</span> แดชบอร์ด</a></li>
+          <li><a class="button button-ghost justify-start w-full hover:text-primary-dark bg-white" href="./dashboard-product.html"><span class="icon-material">storefront</span> สินค้า</a></li>
+          <li><a class="button button-ghost button-content justify-start w-full hover:text-primary-hover" href="./dashboard-order.html"><span class="icon-material">shopping_cart</span> คำสั่งซื้อ</a></li>
+          <li><a class="button button-ghost button-content justify-start w-full hover:text-primary-hover" href="./dashboard-service.html"><span class="icon-material">build</span> บริการซ่อมบำรุง</a></li>
+          <li><a class="button button-ghost button-content justify-start w-full hover:text-primary-hover" href="./dashboard-account.html"><span class="icon-material">person_outline</span> รายชื่อบัญชี</a></li>
+        </ul>
+        <ul id="navFooter" class="flex flex-col gap-2 p-2 border-t border-neutral-disable">
+          <li><a class="button button-ghost button-content justify-start w-full hover:text-primary-hover" href="./dashboard-account.html"><span class="icon-material">account_circle</span> ข้อมูลบัญชี</a></li>
+          <li><a class="button button-ghost button-content justify-start w-full hover:text-error-hover" href="./dashboard-logout.html"><span class="icon-material">logout</span> ออกจากระบบ</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="flex grow flex-col min-w-0 w-2/3 gap-10 px-5 pt-25 pb-10 md:px-10 md:py-15">
+      <section id="productEdit" class="flex flex-row flex-wrap justify-between items-center gap-5">
+        <h1>รายละเอียดสินค้า</h1>
+        <form>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="productName">ชื่อสินค้า</label>
+              <input type="text" id="productName" name="productName" value="Solar Panel Mono 450W" placeholder="ระบุชื่อสินค้าให้ชัดเจน" maxlength="120" required>
+            </div>
+            <div class="input-group">
+              <label for="productSku">รหัสสินค้า
+                <span class="text-xs text-content-soft">(SKU)</span>
+                <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="ระบุบด้วย A-Z, 0-9 และขีด(-) เท่านั้น"><span class="icon-material">info_i</span></span></label>
+              <input type="text" id="productSku" name="productSku" value="SP-450-MN" placeholder="ระบุรหัสสินค้า" pattern="^[A-Z0-9-]+$" maxlength="50">
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="productCategory">หมวดหมู่</label>
+              <select id="productCategory" name="productCategory" required>
+                <option value="" disabled>เลือกหมวดหมู่</option>
+                <option value="solar" selected>แผงโซล่าเซลล์</option>
+                <option value="inverter">อินเวอร์เตอร์</option>
+                <option value="battery">แบตเตอรี่</option>
+                <option value="accessory">อุปกรณ์เสริม</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="productTag">แท็ก / ป้ายกำกับ
+                <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="ระบุคำ เช่น จุดเด่น หรือประเภท และคั่นด้วย ,"><span class="icon-material">info_i</span></span></label>
+              <input type="text" id="productTag" name="productTag" value="สินค้าขายดี, ประสิทธิภาพสูง" placeholder="เช่น สินค้าขายดี, ประสิทธิภาพสูง" maxlength="150">
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="productStockQuantity">จำนวนสต็อก</label>
+              <input type="number" id="productStockQuantity" name="productStockQuantity" value="45" placeholder="ระบุจำนวนคงเหลือ" min="0" max="100000" step="1" required>
+            </div>
+            <div class="input-group">
+              <label for="productStockMin">สต็อกขั้นต่ำ</label>
+              <input type="number" id="productStockMin" name="productStockMin" value="10" placeholder="ระบุจำนวนขั้นต่ำเพื่อแจ้งเตือน" min="0" max="1000" step="1">
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="productImage">รูปภาพสินค้า
+                <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="รองรับไฟล์ JPG, PNG, WEBP (ไม่เกิน 5MB)"><span class="icon-material">info_i</span></span></label>
+              <input type="file" id="productImage" name="productImage" value="" accept="image/jpeg, image/png, image/webp">
+            </div>
+            <div class="input-group">
+              <label for="productDateCreated">วันที่เพิ่มสินค้า
+                <span class="text-xs text-content-base/60">รูปแบบ: วัน/เดือน/ปี ค.ศ.</span></label>
+              <input type="date" id="productDateCreated" name="productDateCreated" value="2026-04-04">
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="productDescription">รายละเอียด</label>
+            <textarea id="productDescription" name="productDescription" rows="5" placeholder="ระบุคุณสมบัติ จุดเด่น การใช้งาน และการรับประกัน" maxlength="2000">แผงโซล่าเซลล์ชนิด Mono กำลังไฟ 450W ให้ประสิทธิภาพสูง เหมาะสำหรับติดตั้งบนหลังคาบ้าน อาคาร หรือโรงงาน สามารถผลิตไฟฟ้าได้ดีแม้ในสภาพแสงน้อย ตัวแผงผลิตจากวัสดุคุณภาพสูง ทนทานต่อสภาพอากาศและรังสี UV ใช้งานได้ยาวนาน
+
+จุดเด่น:
+- ประสิทธิภาพการผลิตไฟฟ้าสูง
+- ทนความร้อนและสภาพอากาศได้ดี
+- รองรับการใช้งานทั้งระบบ On-grid และ Off-grid
+
+การใช้งาน:
+เหมาะสำหรับระบบโซล่าเซลล์ภายในบ้าน ธุรกิจขนาดเล็ก และโรงงาน
+
+การรับประกัน:
+รับประกันสินค้า 10 ปี และประสิทธิภาพการผลิตไฟฟ้า 25 ปี</textarea>
+          </div>
+          <div class="button-row">
+            <button type="reset" class="button button-soft button-content">ยกเลิก</button>
+            <button class="button" onclick="event.preventDefault(); window.location.href='./dashboard-product.html';">บันทึก</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
