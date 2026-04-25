@@ -50,7 +50,7 @@
               <label for="productSku">รหัสสินค้า
                 <span class="text-xs text-content-soft">(SKU)</span>
                 <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="ระบุบด้วย A-Z, 0-9 และขีด(-) เท่านั้น"><span class="icon-material">info_i</span></span></label>
-              <input type="text" id="productSku" name="productSku" value="SP-450-MN" placeholder="ระบุรหัสสินค้า" pattern="^[A-Z0-9-]+$" maxlength="50">
+              <input type="text" id="productSku" name="productSku" value="SP-450-MN" placeholder="ระบุรหัสสินค้า" pattern="[A-Za-z0-9\-]+" maxlength="50">
             </div>
           </div>
           <div class="input-row">
@@ -81,14 +81,17 @@
             </div>
           </div>
           <div class="input-row">
-            <div class="input-group">
-              <label for="productImage">รูปภาพสินค้า
-                <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="รองรับไฟล์ JPG, PNG, WEBP (ไม่เกิน 5MB)"><span class="icon-material">info_i</span></span></label>
-              <input type="file" id="productImage" name="productImage" value="" accept="image/jpeg, image/png, image/webp">
+            <div class="input-row xs:flex-row">
+              <img class="size-17" src="">
+              <div class="input-group">
+                <label for="serviceImage">รูปภาพสินค้า
+                  <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="รองรับไฟล์ JPG, PNG, WEBP (ไม่เกิน 5MB)"><span class="icon-material">info_i</span></span></label>
+                <input type="file" id="serviceImage" class="max-w-57.5" name="serviceImage" value="" accept="image/jpeg, image/png, image/webp">
+              </div>
             </div>
             <div class="input-group">
               <label for="productDateCreated">วันที่เพิ่มสินค้า
-                <span class="text-xs text-content-base/60">รูปแบบ: วัน/เดือน/ปี ค.ศ.</span></label>
+                <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="รูปแบบ: วัน/เดือน/ปี ค.ศ."><span class="icon-material">info_i</span></span></label>
               <input type="date" id="productDateCreated" name="productDateCreated" value="2026-04-04">
             </div>
           </div>

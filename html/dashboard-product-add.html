@@ -50,7 +50,7 @@
               <label for="productSku">รหัสสินค้า
                 <span class="text-xs text-content-soft">(SKU)</span>
                 <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="ระบุบด้วย A-Z, 0-9 และขีด(-) เท่านั้น"><span class="icon-material">info_i</span></span></label>
-              <input type="text" id="productSku" name="productSku" value="" placeholder="ระบุรหัสสินค้า" pattern="^[A-Z0-9-]+$" maxlength="50">
+              <input type="text" id="productSku" name="productSku" value="" placeholder="ระบุรหัสสินค้า" pattern="[A-Za-z0-9\-]+" maxlength="50">
             </div>
           </div>
           <div class="input-row">
@@ -88,7 +88,7 @@
             </div>
             <div class="input-group">
               <label for="productDateCreated">วันที่เพิ่มสินค้า
-                <span class="text-xs text-content-base/60">รูปแบบ: วัน/เดือน/ปี ค.ศ.</span></label>
+                <span class="badge badge-sm badge-pill badge-icon badge-outline badge-content" title="รูปแบบ: วัน/เดือน/ปี ค.ศ."><span class="icon-material">info_i</span></span></label>
               <input type="date" id="productDateCreated" name="productDateCreated" value="">
             </div>
           </div>
