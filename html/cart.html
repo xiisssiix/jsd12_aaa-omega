@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตะกร้าสินค้า</title>
+  <title>ตะกร้าสินค้า - AAA Omega Project</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Noto Sans Thai', 'sans-serif'],
+            sans: ['Kanit', 'sans-serif'],
           },
           colors: {
             primary: '#7f8dd1',
@@ -19,8 +19,12 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="../src/assets/css/app.css">
   <style>
     input[type="checkbox"] { accent-color: #7f8dd1; cursor: pointer; }
     input[type="number"]::-webkit-inner-spin-button,
@@ -34,7 +38,8 @@
   <span class="w-px h-6 bg-white/40"></span>
   <span class="text-white/90 text-base">ตะกร้าสินค้า</span>
   <div class="ml-auto relative text-white text-[22px] cursor-pointer">
-    <i class="fa-solid fa-cart-shopping"></i>
+    <!-- <i class="fa-solid fa-cart-shopping"></i> -->
+    <span class="icon-material">shopping_cart</span>
     <span class="absolute -top-1.5 -right-2 bg-white text-primary text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1" id="cartBadge">3</span>
   </div>
 </header>
@@ -73,7 +78,8 @@
             <button class="qty-btn w-7 h-7 border border-slate-200 bg-white cursor-pointer text-sm flex items-center justify-center rounded-r hover:bg-slate-50 transition-colors" onclick="changeQty(this,1)">+</button>
           </div>
           <div class="item-subtotal text-center text-sm text-primary font-semibold">฿18,900</div>
-          <button class="delete-btn bg-transparent border-none text-slate-500 cursor-pointer text-lg flex justify-center hover:text-primary transition-colors" onclick="deleteItem(this)"><i class="fa-solid fa-trash-can"></i></button>
+          <!-- <span class="icon-material">delete</span> -->
+          <button class="delete-btn bg-transparent border-none text-slate-500 cursor-pointer text-lg flex justify-center hover:text-primary transition-colors" onclick="deleteItem(this)"><span class="icon-material">delete</span></button>
         </div>
 
         <!-- Item 2 -->
@@ -93,7 +99,7 @@
             <button class="qty-btn w-7 h-7 border border-slate-200 bg-white cursor-pointer text-sm flex items-center justify-center rounded-r hover:bg-slate-50 transition-colors" onclick="changeQty(this,1)">+</button>
           </div>
           <div class="item-subtotal text-center text-sm text-primary font-semibold">฿35,000</div>
-          <button class="delete-btn bg-transparent border-none text-slate-500 cursor-pointer text-lg flex justify-center hover:text-primary transition-colors" onclick="deleteItem(this)"><i class="fa-solid fa-trash-can"></i></button>
+          <button class="delete-btn bg-transparent border-none text-slate-500 cursor-pointer text-lg flex justify-center hover:text-primary transition-colors" onclick="deleteItem(this)"><i class="icon-material">delete</i></button>
         </div>
 
         <!-- Item 3 -->
@@ -113,7 +119,7 @@
             <button class="qty-btn w-7 h-7 border border-slate-200 bg-white cursor-pointer text-sm flex items-center justify-center rounded-r hover:bg-slate-50 transition-colors" onclick="changeQty(this,1)">+</button>
           </div>
           <div class="item-subtotal text-center text-sm text-primary font-semibold">฿28,500</div>
-          <button class="delete-btn bg-transparent border-none text-slate-500 cursor-pointer text-lg flex justify-center hover:text-primary transition-colors" onclick="deleteItem(this)"><i class="fa-solid fa-trash-can"></i></button>
+          <button class="delete-btn bg-transparent border-none text-slate-500 cursor-pointer text-lg flex justify-center hover:text-primary transition-colors" onclick="deleteItem(this)"><i class="icon-material">delete</i></button>
         </div>
 
       </div>
@@ -160,6 +166,6 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="script-02.js"></script>
 </body>
 </html>

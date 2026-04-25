@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ชำระเงิน - AAA Omega Project</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Kanit', 'sans-serif'] },
+          colors: { primary: '#7f8dd1' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="./src/assets/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    input[type="checkbox"],
+    input[type="radio"] {
+      accent-color: #7f8dd1;
+      cursor: pointer;
+    }
+
+    .error-msg {
+      display: none;
+      font-size: 11px;
+      color: #e53935;
+    }
+
+    .error-msg.show {
+      display: block;
+    }
+
+    input.error,
+    select.error {
+      border-color: #e53935 !important;
+    }
+
+    /* JS-toggled payment option states */
+    .payment-option {
+      border: 2px solid #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+
+    .payment-option.selected {
+      border-color: #7f8dd1;
+    }
+
+    .payment-option-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+    }
+
+    .payment-option.selected .payment-option-header {
+      background: #f5f6ff;
+    }
+
+    .payment-detail {
+      padding: 0 16px 16px;
+      border-top: 1px solid #e2e8f0;
+      display: none;
+    }
+
+    .payment-option.selected .payment-detail {
+      display: block;
+      padding-top: 16px;
+    }
+
+    /* JS-toggled wallet states */
+    .wallet-item {
+      padding: 8px 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .wallet-item.active {
+      border-color: #7f8dd1;
+      color: #7f8dd1;
+      background: #f5f6ff;
+    }
+
+    /* info block */
+    .info-block {
+      background: #f8fafc;
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin: 10px 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 8px;
+      padding: 40px 32px;
+      text-align: center;
+      max-width: 360px;
+      width: 90%;
+      transform: scale(0.9);
+      transition: transform 0.25s;
+    }
+
+    .modal-overlay.show .modal {
+      transform: scale(1);
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-slate-50 text-[#1e2939] text-sm min-h-screen">
+
+  <header class="bg-primary px-5 h-14 flex items-center gap-4 sticky top-0 z-[100]">
+    <span class="text-[22px] font-bold text-white tracking-wide">SolarShop</span>
+    <span class="w-px h-6 bg-white/40"></span>
+    <span class="text-white/90 text-base">ชำระเงิน</span>
+  </header>
+
+  <div class="max-w-[1200px] mx-auto px-4 py-5">
+
+    <!-- Stepper -->
+    <div class="flex items-center justify-center py-5">
+      <div class="flex items-center gap-2 text-[#40a448]">
+        <div
+          class="w-7 h-7 rounded-full border-2 bg-[#40a448] border-[#40a448] text-white flex items-center justify-center text-xs font-semibold flex-shrink-0">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <span class="text-[13px] font-medium whitespace-nowrap">ตะกร้าสินค้า</span>
+      </div>
+      <div class="w-[60px] h-0.5 bg-[#40a448] mx-1"></div>
+      <div class="flex items-center gap-2 text-[#40a448]">
+        <div
+          class="w-7 h-7 rounded-full border-2 bg-[#40a448] border-[#40a448] text-white flex items-center justify-center text-xs font-semibold flex-shrink-0">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <span class="text-[13px] font-medium whitespace-nowrap">ที่อยู่จัดส่ง</span>
+      </div>
+      <div class="w-[60px] h-0.5 bg-[#40a448] mx-1"></div>
+      <div class="flex items-center gap-2 text-primary">
+        <div
+          class="w-7 h-7 rounded-full border-2 bg-primary border-primary text-white flex items-center justify-center text-xs font-semibold flex-shrink-0">
+          3</div>
+        <span class="text-[13px] font-medium whitespace-nowrap">ชำระเงิน</span>
+      </div>
+      <div class="w-[60px] h-0.5 bg-slate-200 mx-1"></div>
+      <div class="flex items-center gap-2 text-slate-400">
+        <div
+          class="w-7 h-7 rounded-full border-2 border-current flex items-center justify-center text-xs font-semibold flex-shrink-0">
+          4</div>
+        <span class="text-[13px] font-medium whitespace-nowrap">เสร็จสิ้น</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-[1fr_320px] gap-4 items-start">
+
+      <!-- LEFT: Payment -->
+      <div>
+
+        <!-- Delivery Info Summary -->
+        <div class="bg-white rounded shadow-[0_1px_4px_rgba(0,0,0,0.08)] mb-4 p-5">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-[15px] font-semibold"><i
+                class="fa-solid fa-location-dot text-primary mr-2"></i>ที่อยู่จัดส่ง</h3>
+            <a href="address.html" class="text-[13px] text-primary no-underline hover:opacity-80">เปลี่ยน</a>
+          </div>
+          <div class="info-block" id="deliveryInfoBlock">
+            <strong id="payRecipient">-</strong><br />
+            <span id="payPhone">-</span><br />
+            <span id="payAddress">-</span>
+          </div>
+          <div class="mt-2 text-[13px] text-slate-500">
+            <i class="fa-solid fa-truck mr-1.5"></i>
+            <span id="payShippingMethod">จัดส่งมาตรฐาน (3-5 วัน)</span>
+          </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="bg-white rounded shadow-[0_1px_4px_rgba(0,0,0,0.08)]">
+          <div class="p-5">
+            <h3 class="text-base font-semibold mb-5"><i
+                class="fa-solid fa-credit-card text-primary mr-2"></i>วิธีการชำระเงิน</h3>
+            <div class="flex flex-col gap-2.5">
+
+              <!-- Credit/Debit Card -->
+              <div class="payment-option selected" id="pay-card" onclick="selectPayment('card')">
+                <div class="payment-option-header">
+                  <div class="w-9 h-9 rounded-md flex items-center justify-center text-lg flex-shrink-0 bg-[#fff3e0]">💳
+                  </div>
+                  <div>
+                    <div class="font-semibold text-sm">บัตรเครดิต / เดบิต</div>
+                    <div class="text-xs text-slate-500 mt-0.5">Visa, Mastercard, JCB</div>
+                  </div>
+                  <input type="radio" name="payment" value="card" checked class="ml-auto" />
+                </div>
+                <div class="payment-detail">
+                  <div class="mb-3">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[13px] font-medium">หมายเลขบัตร <span class="text-primary">*</span></label>
+                      <div class="relative">
+                        <input
+                          class="w-full px-3 py-2.5 pr-10 border border-slate-200 rounded text-sm outline-none transition-colors focus:border-primary bg-white font-[inherit]"
+                          type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="19"
+                          oninput="formatCard(this)" />
+                        <i class="fa-brands fa-cc-visa absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                      </div>
+                      <span class="error-msg" id="cardNumberErr">กรุณากรอกหมายเลขบัตร 16 หลัก</span>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[13px] font-medium">ชื่อบนบัตร <span class="text-primary">*</span></label>
+                      <input
+                        class="px-3 py-2.5 border border-slate-200 rounded text-sm outline-none transition-colors focus:border-primary bg-white font-[inherit] uppercase"
+                        type="text" id="cardName" placeholder="ชื่อ-นามสกุล (ภาษาอังกฤษ)" />
+                      <span class="error-msg" id="cardNameErr">กรุณากรอกชื่อบนบัตร</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                      <div class="flex flex-col gap-1.5">
+                        <label class="text-[13px] font-medium">วันหมดอายุ <span class="text-primary">*</span></label>
+                        <input
+                          class="px-3 py-2.5 border border-slate-200 rounded text-sm outline-none transition-colors focus:border-primary bg-white font-[inherit]"
+                          type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)" />
+                        <span class="error-msg" id="cardExpiryErr">MM/YY ไม่ถูกต้อง</span>
+                      </div>
+                      <div class="flex flex-col gap-1.5">
+                        <label class="text-[13px] font-medium">CVV <span class="text-primary">*</span></label>
+                        <input
+                          class="px-3 py-2.5 border border-slate-200 rounded text-sm outline-none transition-colors focus:border-primary bg-white font-[inherit]"
+                          type="password" id="cardCvv" placeholder="CVV" maxlength="4" />
+                        <span class="error-msg" id="cardCvvErr">CVV 3-4 หลัก</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bank Transfer / QR -->
+              <div class="payment-option" id="pay-qr" onclick="selectPayment('qr')">
+                <div class="payment-option-header">
+                  <div class="w-9 h-9 rounded-md flex items-center justify-center text-lg flex-shrink-0 bg-[#e8f5e9]">🏦
+                  </div>
+                  <div>
+                    <div class="font-semibold text-sm">โอนเงินผ่านธนาคาร (QR Code)</div>
+                    <div class="text-xs text-slate-500 mt-0.5">PromptPay / QR Payment</div>
+                  </div>
+                  <input type="radio" name="payment" value="qr" class="ml-auto" />
+                </div>
+                <div class="payment-detail">
+                  <div class="flex flex-col items-center gap-2 py-3">
+                    <div
+                      class="w-[140px] h-[140px] bg-[#f0f0f0] border-2 border-slate-200 rounded-lg flex items-center justify-center text-5xl text-slate-400">
+                      <i class="fa-solid fa-qrcode"></i>
+                    </div>
+                    <div class="text-xs text-slate-500 text-center">สแกน QR Code เพื่อชำระเงิน<br />ผ่าน PromptPay
+                      หรือแอปธนาคาร</div>
+                    <div class="text-base font-bold text-primary" id="qrAmount">฿0</div>
+                    <div class="text-xs text-slate-500">QR Code มีอายุ 15 นาที</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- COD -->
+              <div class="payment-option" id="pay-cod" onclick="selectPayment('cod')">
+                <div class="payment-option-header">
+                  <div class="w-9 h-9 rounded-md flex items-center justify-center text-lg flex-shrink-0 bg-[#e3f2fd]">💵
+                  </div>
+                  <div>
+                    <div class="font-semibold text-sm">เก็บเงินปลายทาง (COD)</div>
+                    <div class="text-xs text-slate-500 mt-0.5">ชำระเงินสดเมื่อรับสินค้า</div>
+                  </div>
+                  <input type="radio" name="payment" value="cod" class="ml-auto" />
+                </div>
+                <div class="payment-detail">
+                  <div class="info-block">
+                    <i class="fa-solid fa-circle-info text-primary mr-1.5"></i>
+                    กรุณาเตรียมเงินสดให้พอดี เพื่อความสะดวกในการจัดส่ง<br />
+                    มีค่าธรรมเนียม COD เพิ่มเติม <strong>+฿25</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- E-Wallet -->
+              <div class="payment-option" id="pay-wallet" onclick="selectPayment('wallet')">
+                <div class="payment-option-header">
+                  <div class="w-9 h-9 rounded-md flex items-center justify-center text-lg flex-shrink-0 bg-[#fce4ec]">📱
+                  </div>
+                  <div>
+                    <div class="font-semibold text-sm">กระเป๋าเงินออนไลน์</div>
+                    <div class="text-xs text-slate-500 mt-0.5">TrueMoney, Rabbit LINE Pay, ShopeePay</div>
+                  </div>
+                  <input type="radio" name="payment" value="wallet" class="ml-auto" />
+                </div>
+                <div class="payment-detail">
+                  <div class="text-[13px] mb-2 text-slate-500">เลือกกระเป๋าเงิน:</div>
+                  <div class="flex flex-wrap gap-2.5 py-3">
+                    <div class="wallet-item active" onclick="selectWallet(this)">ShopeePay</div>
+                    <div class="wallet-item" onclick="selectWallet(this)">TrueMoney Wallet</div>
+                    <div class="wallet-item" onclick="selectWallet(this)">Rabbit LINE Pay</div>
+                    <div class="wallet-item" onclick="selectWallet(this)">AirPay</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Page Actions -->
+          <div class="flex justify-end gap-3 p-5 border-t border-slate-200">
+            <a href="address.html"
+              class="px-6 py-2.5 rounded border border-slate-200 bg-white text-[#1e2939] text-sm font-medium cursor-pointer transition-all hover:border-primary hover:text-primary active:scale-[0.98] no-underline inline-flex items-center gap-2">
+              <i class="fa-solid fa-chevron-left"></i> ย้อนกลับ
+            </a>
+            <button
+              class="px-6 py-2.5 rounded border-none bg-primary text-white text-sm font-medium cursor-pointer font-[inherit] transition-all hover:opacity-90 active:scale-[0.98]"
+              onclick="confirmOrder()">
+              <i class="fa-solid fa-lock mr-1.5"></i>ยืนยันการสั่งซื้อ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Order Summary -->
+      <div class="bg-white rounded shadow-[0_1px_4px_rgba(0,0,0,0.08)] p-4 sticky top-[72px]">
+        <h3 class="text-base font-semibold mb-4 pb-3 border-b border-slate-200">สรุปคำสั่งซื้อ</h3>
+        <div id="paymentSummaryItems"></div>
+        <div class="flex justify-between mt-3 mb-2.5 text-sm">
+          <span>ราคาสินค้า</span>
+          <span id="paySubtotal">-</span>
+        </div>
+        <div class="flex justify-between mb-2.5 text-sm">
+          <span>ส่วนลด</span>
+          <span class="text-primary" id="payDiscount">-</span>
+        </div>
+        <div class="flex justify-between mb-2.5 text-sm">
+          <span>ค่าจัดส่ง</span>
+          <span class="text-[#40a448]" id="payShippingFee">ฟรี</span>
+        </div>
+        <div class="flex justify-between mb-2.5 text-sm" id="codFeeRow" style="display:none">
+          <span>ค่าธรรมเนียม COD</span>
+          <span>+฿25</span>
+        </div>
+        <div class="flex justify-between border-t border-slate-200 mt-3 pt-3 text-base font-semibold">
+          <span>ยอดที่ต้องชำระ</span>
+          <span class="text-primary text-xl" id="payTotal">-</span>
+        </div>
+        <div class="mt-3 text-xs text-slate-500 text-center">
+          <i class="fa-solid fa-shield-halved text-[#40a448] mr-1"></i>
+          การชำระเงินของคุณปลอดภัย
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal">
+      <div
+        class="w-[72px] h-[72px] rounded-full bg-[#e8f8f6] flex items-center justify-center text-[36px] text-[#40a448] mx-auto mb-4">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h2 class="text-xl font-semibold mb-2">สั่งซื้อสำเร็จ!</h2>
+      <p class="text-slate-500 text-sm leading-relaxed mb-6">
+        ขอบคุณที่ใช้บริการ<br />เราจะดำเนินการจัดส่งสินค้าของคุณโดยเร็ว</p>
+      <div class="text-[13px] bg-slate-50 px-4 py-2 rounded mb-6">
+        หมายเลขคำสั่งซื้อ: <span class="font-bold text-primary" id="orderNumber">#SPE2026041800001</span>
+      </div>
+      <div class="flex gap-2.5 justify-center flex-wrap">
+        <button
+          class="px-6 py-2.5 rounded border-none bg-primary text-white text-sm font-medium cursor-pointer font-[inherit] transition-all hover:opacity-90 active:scale-[0.98]"
+          onclick="window.location.href='index.html'">ช้อปปิ้งต่อ</button>
+        <button
+          class="px-6 py-2.5 rounded border border-slate-200 bg-white text-[#1e2939] text-sm font-medium cursor-pointer font-[inherit] transition-all hover:border-primary hover:text-primary active:scale-[0.98]"
+          onclick="closeModal()">ดูคำสั่งซื้อ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script-02.js"></script>
+</body>
+
+</html>
